@@ -15,10 +15,11 @@ func (r *Router) userRoutes() {
 
 	// Auth
 	route.POST("/signup", userAPI.Register("user"))
-	// route.GET("/confirm-email", userAPI.ConfirmEmailAddress())
+	route.GET("/confirm-email", userAPI.ConfirmEmailAddress())
 	route.POST("/login", userAPI.Login())
-	// route.GET("/refresh", userAPI.RefreshToken())
+	route.GET("/refresh", userAPI.RefreshToken())
 	// route.POST("/forgot-password", userAPI.ForgotPassword())
+	route.GET("/logout", r.middlewares.IsAuthorized(), userAPI.Logout())
 	// route.POST("/reset-password", userAPI.ResetPassword())
 	route.POST("/add-admin", r.middlewares.IsAuthorized(), r.middlewares.UserRole([]string{"super_admin"}), userAPI.Register("admin"))
 
@@ -26,7 +27,6 @@ func (r *Router) userRoutes() {
 	route.Use(r.middlewares.IsAuthorized())
 	route.GET("", userAPI.GetMe())
 	route.PATCH("", userAPI.UpdateUser())
-	// route.GET("/logout", userAPI.Logout())
 	route.POST("/update_password", userAPI.UpdatePassword())
 
 	// Address

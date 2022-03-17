@@ -2,14 +2,17 @@ package userapi
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/praveennagaraj97/shopee/api"
+	"github.com/praveennagaraj97/shopee/constants"
 	"github.com/praveennagaraj97/shopee/models"
 	"github.com/praveennagaraj97/shopee/models/dto"
 	"github.com/praveennagaraj97/shopee/models/serialize"
 	"github.com/praveennagaraj97/shopee/pkg/tokens"
 	"github.com/praveennagaraj97/shopee/pkg/validators"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // Register User Takes User payload and returns token and referesh token along with saved user entity
@@ -63,6 +66,68 @@ func (a *UserAPI) Register(role string) gin.HandlerFunc {
 				Message:    a.config.Localize.GetMessage("user_registered", c),
 			},
 			User: response,
+		})
+	}
+}
+
+// Confirm email address from mail using JWT.
+func (a *UserAPI) ConfirmEmailAddress() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// get the token from request
+		token := c.Request.URL.Query().Get("token")
+
+		// parse refresh token
+		claimedToken, err := tokens.DecodeJSONWebToken(token)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
+			return
+		}
+
+		if claimedToken.Type != "verify" {
+			api.SendErrorResponse(a.config.Localize, c, "token_malformed", http.StatusNotAcceptable, nil)
+			return
+
+		}
+
+		userId, err := primitive.ObjectIDFromHex(claimedToken.ID)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
+			return
+		}
+
+		// cross check refresh token with db.
+		user, err := a.userRepo.FindUserByID(&userId)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
+			return
+		}
+
+		if user.EmailVerified {
+			api.SendErrorResponse(a.config.Localize, c, "email_is_already_verified", http.StatusUnauthorized, nil)
+			return
+		}
+
+		// generate new token and refresh token
+		token, refreshToken, err := a.generateAndSetTokens(user.ID, c, user.UserRole)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
+			return
+		}
+
+		err = a.userRepo.ActivateUserAccount(userId, refreshToken)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
+			return
+		}
+
+		c.JSON(http.StatusOK, &serialize.AuthResponse{
+			Response: serialize.Response{
+				StatusCode: http.StatusOK,
+				Message:    a.config.Localize.GetMessage("success_login", c),
+			},
+			Token:        token,
+			RefreshToken: refreshToken,
+			User:         user,
 		})
 	}
 }
@@ -126,157 +191,95 @@ func (a *UserAPI) Login() gin.HandlerFunc {
 	}
 }
 
-// // Refresh access token using refresh token.
-// // Can be force refreshed by passing force param set to true.
-// func (a *UserAPI) RefreshToken() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		token, refreshToken, err := a.getAccessAndRefreshTokenFromRequest(c)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
-// 			return
-// 		}
+// Refresh access token using refresh token.
+// Can be force refreshed by passing force param set to true.
+func (a *UserAPI) RefreshToken() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token, refreshToken, err := a.getAccessAndRefreshTokenFromRequest(c)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
+			return
+		}
 
-// 		// check if force refresh is requested
-// 		isForce, _ := strconv.ParseBool(c.Request.URL.Query().Get("force"))
+		// check if force refresh is requested
+		isForce, _ := strconv.ParseBool(c.Request.URL.Query().Get("force"))
 
-// 		// parse auth Token
-// 		_, err = tokens.DecodeJSONWebToken(token)
-// 		if err == nil && !isForce {
-// 			api.SendErrorResponse(a.config.Localize, c, "token_is_not_expired", http.StatusNotAcceptable, nil)
-// 			return
-// 		}
+		// parse auth Token
+		_, err = tokens.DecodeJSONWebToken(token)
+		if err == nil && !isForce {
+			api.SendErrorResponse(a.config.Localize, c, "token_is_not_expired", http.StatusNotAcceptable, nil)
+			return
+		}
 
-// 		// parse refresh token
-// 		claimedRefreshToken, err := tokens.DecodeJSONWebToken(refreshToken)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "revalidate_token_malformed", http.StatusNotAcceptable, nil)
-// 			return
-// 		}
+		// parse refresh token
+		claimedRefreshToken, err := tokens.DecodeJSONWebToken(refreshToken)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "revalidate_token_malformed", http.StatusNotAcceptable, nil)
+			return
+		}
 
-// 		userId, err := primitive.ObjectIDFromHex(claimedRefreshToken.ID)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusNotAcceptable, nil)
-// 			return
-// 		}
+		userId, err := primitive.ObjectIDFromHex(claimedRefreshToken.ID)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusNotAcceptable, nil)
+			return
+		}
 
-// 		// cross check refresh token with db.
-// 		user, err := a.userRepo.FindUserByID(&userId)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotFound, nil)
-// 			return
-// 		}
+		// cross check refresh token with db.
+		user, err := a.userRepo.FindUserByID(&userId)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotFound, nil)
+			return
+		}
 
-// 		if user.RefreshToken != refreshToken {
-// 			api.SendErrorResponse(a.config.Localize, c, "revalidate_token_malformed", http.StatusInternalServerError, nil)
-// 			return
-// 		}
+		if user.RefreshToken != refreshToken {
+			api.SendErrorResponse(a.config.Localize, c, "revalidate_token_malformed", http.StatusInternalServerError, nil)
+			return
+		}
 
-// 		// generate new token and refresh token
-// 		token, refreshToken, err = a.generateAndSetTokens(user.ID, c, user.UserRole)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
-// 			return
-// 		}
+		// generate new token and refresh token
+		token, refreshToken, err = a.generateAndSetTokens(user.ID, c, user.UserRole)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
+			return
+		}
 
-// 		c.JSON(http.StatusOK, &serialize.RefreshResponse{
-// 			Response: serialize.Response{
-// 				StatusCode: http.StatusOK,
-// 				Message:    a.config.Localize.GetMessage("token_refreshed_successfully", c),
-// 			},
-// 			Token:        token,
-// 			RefreshToken: refreshToken,
-// 		})
-// 	}
-// }
+		c.JSON(http.StatusOK, &serialize.RefreshResponse{
+			Response: serialize.Response{
+				StatusCode: http.StatusOK,
+				Message:    a.config.Localize.GetMessage("token_refreshed_successfully", c),
+			},
+			Token:        token,
+			RefreshToken: refreshToken,
+		})
+	}
+}
 
-// // Logout - Removes user token from Entity and disables token from used further.
-// func (a *UserAPI) Logout() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		id, err := api.GetUserIdFromContext(c)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
-// 			return
-// 		}
+// Logout - Removes user token from Entity and disables token from used further.
+func (a *UserAPI) Logout() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id, err := api.GetUserIdFromContext(c)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
+			return
+		}
 
-// 		err = a.userRepo.UpdateByField(*id, "refresh_token", "")
+		err = a.userRepo.UpdateByField(*id, "refresh_token", "")
 
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
-// 			return
-// 		}
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
+			return
+		}
 
-// 		c.SetCookie(string(constants.AUTH_TOKEN), "", 0, "/", a.config.Domain, false, true)
-// 		c.SetCookie(string(constants.REFRESH_TOKEN), "", 0, "/", a.config.Domain, false, true)
+		c.SetCookie(string(constants.AUTH_TOKEN), "", 0, "/", a.config.Domain, false, true)
+		c.SetCookie(string(constants.REFRESH_TOKEN), "", 0, "/", a.config.Domain, false, true)
 
-// 		c.JSON(http.StatusOK, serialize.Response{
-// 			StatusCode: http.StatusOK,
-// 			Message:    a.config.Localize.GetMessage("logged_out_successfully", c),
-// 		})
+		c.JSON(http.StatusOK, serialize.Response{
+			StatusCode: http.StatusOK,
+			Message:    a.config.Localize.GetMessage("logged_out_successfully", c),
+		})
 
-// 	}
-// }
-
-// // Confirm email address from mail using JWT.
-// func (a *UserAPI) ConfirmEmailAddress() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		// get the token from request
-// 		token := c.Request.URL.Query().Get("token")
-
-// 		// parse refresh token
-// 		claimedToken, err := tokens.DecodeJSONWebToken(token)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
-// 			return
-// 		}
-
-// 		if claimedToken.Type != "verify" {
-// 			api.SendErrorResponse(a.config.Localize, c, "token_malformed", http.StatusNotAcceptable, nil)
-// 			return
-
-// 		}
-
-// 		userId, err := primitive.ObjectIDFromHex(claimedToken.ID)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
-// 			return
-// 		}
-
-// 		// cross check refresh token with db.
-// 		user, err := a.userRepo.FindUserByID(&userId)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnauthorized, nil)
-// 			return
-// 		}
-
-// 		if user.EmailVerified {
-// 			api.SendErrorResponse(a.config.Localize, c, "email_is_already_verified", http.StatusUnauthorized, nil)
-// 			return
-// 		}
-
-// 		// generate new token and refresh token
-// 		token, refreshToken, err := a.generateAndSetTokens(user.ID, c, user.UserRole)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
-// 			return
-// 		}
-
-// 		err = a.userRepo.ActivateUserAccount(userId, refreshToken)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
-// 			return
-// 		}
-
-// 		c.JSON(http.StatusOK, &serialize.AuthResponse{
-// 			Response: serialize.Response{
-// 				StatusCode: http.StatusOK,
-// 				Message:    a.config.Localize.GetMessage("success_login", c),
-// 			},
-// 			Token:        token,
-// 			RefreshToken: refreshToken,
-// 			User:         user,
-// 		})
-// 	}
-// }
+	}
+}
 
 // // Send reset email to user's email.
 // func (a *UserAPI) ForgotPassword() gin.HandlerFunc {

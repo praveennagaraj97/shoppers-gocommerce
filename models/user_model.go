@@ -6,17 +6,17 @@ import (
 )
 
 type User struct {
-	ID                 primitive.ObjectID `json:"_id"`
-	FirstName          string             `json:"first_name"`
-	LastName           string             `json:"last_name"`
-	Email              string             `json:"email"`
-	Password           string             `json:"-"`
-	IsActive           bool               `json:"-"`
-	RefreshToken       string             `json:"-" `
-	EmailVerified      bool               `json:"email_verified"`
-	ResetPasswordToken string             `json:"-"`
-	JoinedOn           primitive.DateTime `json:"joined_on"`
-	UserRole           string             `json:"-"`
+	ID                 primitive.ObjectID `bson:"_id" json:"_id"`
+	FirstName          string             `bson:"first_name" json:"first_name"`
+	LastName           string             `bson:"last_name" json:"last_name"`
+	Email              string             `bson:"email" json:"email"`
+	Password           string             `bson:"password" json:"-"`
+	IsActive           bool               `bson:"is_active" json:"-"`
+	RefreshToken       string             `bson:"refresh_token" json:"-"`
+	EmailVerified      bool               `bson:"email_verified" json:"email_verified"`
+	ResetPasswordToken string             `bson:"reset_password_token" json:"-"`
+	JoinedOn           primitive.DateTime `bson:"joined_on" json:"joined_on"`
+	UserRole           string             `bson:"user_role" json:"user_role"`
 }
 
 func (u *User) HashPassword() error {

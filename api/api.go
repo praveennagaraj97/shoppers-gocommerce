@@ -31,9 +31,11 @@ func SendErrorResponse(loc *i18n.Internationalization, c *gin.Context, mskKey st
 
 // Get user if parsed from req context which will be set by middleware.
 func GetUserIdFromContext(c *gin.Context) (*primitive.ObjectID, error) {
-	value, exists := c.Get("id")
+	value, _ := c.Get("id")
+	fmt.Println(value)
+
 	id, err := primitive.ObjectIDFromHex(fmt.Sprintf("%v", value))
-	if !exists || err != nil {
+	if err != nil {
 		return nil, errors.New("user_context_is_not_found")
 	}
 	return &id, nil
