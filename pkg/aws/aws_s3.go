@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
 )
 
 type S3DeleteObjectAPI interface {

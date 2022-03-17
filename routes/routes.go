@@ -5,11 +5,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	conf "github.com/praveennagaraj97/shopee/config"
-	"github.com/praveennagaraj97/shopee/middlewares"
-	"github.com/praveennagaraj97/shopee/pkg/color"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
-	"github.com/praveennagaraj97/shopee/repository"
+	conf "github.com/praveennagaraj97/shoppers-gocommerce/config"
+	"github.com/praveennagaraj97/shoppers-gocommerce/middlewares"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
+	"github.com/praveennagaraj97/shoppers-gocommerce/repository"
 )
 
 type Router struct {

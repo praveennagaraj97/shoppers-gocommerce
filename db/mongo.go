@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/praveennagaraj97/shopee/pkg/color"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

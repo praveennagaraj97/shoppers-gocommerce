@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/praveennagaraj97/shopee/models/dto"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/dto"
 )
 
 func (r *CategoriesRepository) initTranslationsCollection() {

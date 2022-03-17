@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/h2non/bimg"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

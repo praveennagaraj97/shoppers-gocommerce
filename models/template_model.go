@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/pkg/i18n"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/i18n"
 )
 
 type Mail struct {

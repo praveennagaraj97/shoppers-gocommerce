@@ -4,13 +4,13 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/api"
-	conf "github.com/praveennagaraj97/shopee/config"
-	"github.com/praveennagaraj97/shopee/models/dto"
-	"github.com/praveennagaraj97/shopee/models/serialize"
-	"github.com/praveennagaraj97/shopee/pkg/validators"
-	userrepository "github.com/praveennagaraj97/shopee/repository/user"
-	useraddress "github.com/praveennagaraj97/shopee/repository/useraddress"
+	"github.com/praveennagaraj97/shoppers-gocommerce/api"
+	conf "github.com/praveennagaraj97/shoppers-gocommerce/config"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/dto"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/serialize"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/validators"
+	userrepository "github.com/praveennagaraj97/shoppers-gocommerce/repository/user"
+	useraddress "github.com/praveennagaraj97/shoppers-gocommerce/repository/useraddress"
 )
 
 type UserAPI struct {

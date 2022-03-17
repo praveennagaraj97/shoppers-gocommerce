@@ -3,7 +3,7 @@ package dto
 import (
 	"time"
 
-	"github.com/praveennagaraj97/shopee/pkg/utils"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/utils"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

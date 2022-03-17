@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/api"
-	"github.com/praveennagaraj97/shopee/models/dto"
-	"github.com/praveennagaraj97/shopee/models/serialize"
-	"github.com/praveennagaraj97/shopee/pkg/validators"
+	"github.com/praveennagaraj97/shoppers-gocommerce/api"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/dto"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/serialize"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/validators"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

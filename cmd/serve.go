@@ -3,7 +3,7 @@ package cmd
 import (
 	"context"
 
-	"github.com/praveennagaraj97/shopee/routes"
+	"github.com/praveennagaraj97/shoppers-gocommerce/routes"
 )
 
 /*

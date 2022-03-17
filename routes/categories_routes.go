@@ -1,7 +1,7 @@
 package routes
 
 import (
-	categoriesapi "github.com/praveennagaraj97/shopee/api/categories"
+	categoriesapi "github.com/praveennagaraj97/shoppers-gocommerce/api/categories"
 )
 
 func (r *Router) categoriesRoutes() {

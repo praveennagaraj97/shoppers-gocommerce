@@ -1,6 +1,6 @@
 package routes
 
-import globalapi "github.com/praveennagaraj97/shopee/api/global"
+import globalapi "github.com/praveennagaraj97/shoppers-gocommerce/api/global"
 
 func (r *Router) globalRoutes() {
 	router := r.engine.Group("/api/v1/global")

@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	conf "github.com/praveennagaraj97/shopee/config"
-	"github.com/praveennagaraj97/shopee/models/serialize"
+	conf "github.com/praveennagaraj97/shoppers-gocommerce/config"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/serialize"
 )
 
 type GlobalAPI struct {

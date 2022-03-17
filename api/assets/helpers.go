@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/praveennagaraj97/shopee/pkg/utils"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/utils"
 )
 
 func (a *AssetsAPI) saveBlurImage(buffer *[]byte, originalFilePath string, fileName string, fileType *string, ch *chan blueReturn) {

@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/api"
-	"github.com/praveennagaraj97/shopee/constants"
-	"github.com/praveennagaraj97/shopee/pkg/tokens"
+	"github.com/praveennagaraj97/shoppers-gocommerce/api"
+	"github.com/praveennagaraj97/shoppers-gocommerce/constants"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/tokens"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

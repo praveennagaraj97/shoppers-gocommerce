@@ -1,6 +1,6 @@
 package routes
 
-import assetsapi "github.com/praveennagaraj97/shopee/api/assets"
+import assetsapi "github.com/praveennagaraj97/shoppers-gocommerce/api/assets"
 
 func (r *Router) assetsRoutes() {
 

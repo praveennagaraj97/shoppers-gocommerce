@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/praveennagaraj97/shopee/pkg/color"
-	"github.com/praveennagaraj97/shopee/pkg/env"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/env"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
 )
 
 type AWSCredentials struct {

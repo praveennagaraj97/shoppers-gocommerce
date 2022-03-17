@@ -1,4 +1,4 @@
-module github.com/praveennagaraj97/shopee
+module github.com/praveennagaraj97/shoppers-gocommerce
 
 go 1.17
 

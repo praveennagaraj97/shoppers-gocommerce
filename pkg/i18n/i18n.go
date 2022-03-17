@@ -6,9 +6,9 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/constants"
-	"github.com/praveennagaraj97/shopee/pkg/color"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
+	"github.com/praveennagaraj97/shoppers-gocommerce/constants"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
 )
 
 type Internationalization struct {

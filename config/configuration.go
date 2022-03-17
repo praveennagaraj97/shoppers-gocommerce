@@ -1,9 +1,9 @@
 package conf
 
 import (
-	awspkg "github.com/praveennagaraj97/shopee/pkg/aws"
-	"github.com/praveennagaraj97/shopee/pkg/i18n"
-	"github.com/praveennagaraj97/shopee/pkg/mail"
+	awspkg "github.com/praveennagaraj97/shoppers-gocommerce/pkg/aws"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/i18n"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/mail"
 
 	"go.mongodb.org/mongo-driver/mongo"
 )

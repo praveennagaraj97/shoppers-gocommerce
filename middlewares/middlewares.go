@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	conf "github.com/praveennagaraj97/shopee/config"
+	conf "github.com/praveennagaraj97/shoppers-gocommerce/config"
 )
 
 type Middlewares struct {

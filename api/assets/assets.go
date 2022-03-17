@@ -10,14 +10,14 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/api"
-	conf "github.com/praveennagaraj97/shopee/config"
-	"github.com/praveennagaraj97/shopee/models"
-	"github.com/praveennagaraj97/shopee/models/dto"
-	"github.com/praveennagaraj97/shopee/models/serialize"
-	"github.com/praveennagaraj97/shopee/pkg/color"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
-	assetrepository "github.com/praveennagaraj97/shopee/repository/asset"
+	"github.com/praveennagaraj97/shoppers-gocommerce/api"
+	conf "github.com/praveennagaraj97/shoppers-gocommerce/config"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/dto"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/serialize"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
+	assetrepository "github.com/praveennagaraj97/shoppers-gocommerce/repository/asset"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

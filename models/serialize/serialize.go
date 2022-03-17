@@ -1,6 +1,6 @@
 package serialize
 
-import "github.com/praveennagaraj97/shopee/models"
+import "github.com/praveennagaraj97/shoppers-gocommerce/models"
 
 type Response struct {
 	StatusCode int    `json:"status_code"`

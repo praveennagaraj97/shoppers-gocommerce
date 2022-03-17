@@ -4,8 +4,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/praveennagaraj97/shopee/pkg/color"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
 )
 
 func init() {

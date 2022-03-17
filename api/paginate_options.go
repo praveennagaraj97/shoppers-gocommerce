@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/constants"
+	"github.com/praveennagaraj97/shoppers-gocommerce/constants"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

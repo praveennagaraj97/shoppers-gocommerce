@@ -1,13 +1,13 @@
 package repository
 
 import (
-	"github.com/praveennagaraj97/shopee/db"
-	"github.com/praveennagaraj97/shopee/pkg/color"
-	logger "github.com/praveennagaraj97/shopee/pkg/log"
-	assetrepository "github.com/praveennagaraj97/shopee/repository/asset"
-	categoriesrepository "github.com/praveennagaraj97/shopee/repository/categories"
-	userrepository "github.com/praveennagaraj97/shopee/repository/user"
-	useraddressrepository "github.com/praveennagaraj97/shopee/repository/useraddress"
+	"github.com/praveennagaraj97/shoppers-gocommerce/db"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
+	logger "github.com/praveennagaraj97/shoppers-gocommerce/pkg/log"
+	assetrepository "github.com/praveennagaraj97/shoppers-gocommerce/repository/asset"
+	categoriesrepository "github.com/praveennagaraj97/shoppers-gocommerce/repository/categories"
+	userrepository "github.com/praveennagaraj97/shoppers-gocommerce/repository/user"
+	useraddressrepository "github.com/praveennagaraj97/shoppers-gocommerce/repository/useraddress"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

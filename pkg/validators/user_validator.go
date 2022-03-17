@@ -2,8 +2,8 @@ package validators
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/models/dto"
-	"github.com/praveennagaraj97/shopee/pkg/i18n"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/dto"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/i18n"
 )
 
 // Validate SignUp Input checks fields for value and also validates email.

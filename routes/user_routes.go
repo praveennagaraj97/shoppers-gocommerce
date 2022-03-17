@@ -1,7 +1,7 @@
 package routes
 
 import (
-	userapi "github.com/praveennagaraj97/shopee/api/user"
+	userapi "github.com/praveennagaraj97/shoppers-gocommerce/api/user"
 )
 
 func (r *Router) userRoutes() {

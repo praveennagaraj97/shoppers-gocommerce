@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/constants"
+	"github.com/praveennagaraj97/shoppers-gocommerce/constants"
 )
 
 // accepts lang via query param | Accept-Language Header.

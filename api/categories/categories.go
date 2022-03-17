@@ -5,12 +5,12 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/praveennagaraj97/shopee/api"
-	conf "github.com/praveennagaraj97/shopee/config"
-	"github.com/praveennagaraj97/shopee/constants"
-	"github.com/praveennagaraj97/shopee/models/dto"
-	"github.com/praveennagaraj97/shopee/models/serialize"
-	categoriesrepository "github.com/praveennagaraj97/shopee/repository/categories"
+	"github.com/praveennagaraj97/shoppers-gocommerce/api"
+	conf "github.com/praveennagaraj97/shoppers-gocommerce/config"
+	"github.com/praveennagaraj97/shoppers-gocommerce/constants"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/dto"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models/serialize"
+	categoriesrepository "github.com/praveennagaraj97/shoppers-gocommerce/repository/categories"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

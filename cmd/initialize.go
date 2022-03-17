@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	conf "github.com/praveennagaraj97/shopee/config"
-	"github.com/praveennagaraj97/shopee/db"
-	awspkg "github.com/praveennagaraj97/shopee/pkg/aws"
-	"github.com/praveennagaraj97/shopee/pkg/env"
-	"github.com/praveennagaraj97/shopee/pkg/i18n"
-	"github.com/praveennagaraj97/shopee/pkg/mail"
+	conf "github.com/praveennagaraj97/shoppers-gocommerce/config"
+	"github.com/praveennagaraj97/shoppers-gocommerce/db"
+	awspkg "github.com/praveennagaraj97/shoppers-gocommerce/pkg/aws"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/env"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/i18n"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/mail"
 )
 
 // initializeApp provides Default / initial configuration for the application.

@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/praveennagaraj97/shopee/pkg/color"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/color"
 )
 
 // Pritty print error log with red color and stops the application.

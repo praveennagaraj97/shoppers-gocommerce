@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/praveennagaraj97/shopee/pkg/env"
+	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/env"
 )
 
 type SignedClaims struct {

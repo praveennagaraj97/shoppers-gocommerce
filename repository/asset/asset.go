@@ -5,9 +5,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/praveennagaraj97/shopee/api"
-	"github.com/praveennagaraj97/shopee/models"
-	awspkg "github.com/praveennagaraj97/shopee/pkg/aws"
+	"github.com/praveennagaraj97/shoppers-gocommerce/api"
+	"github.com/praveennagaraj97/shoppers-gocommerce/models"
+	awspkg "github.com/praveennagaraj97/shoppers-gocommerce/pkg/aws"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
