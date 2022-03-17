@@ -1,0 +1,8 @@
+.env
+.env.*
+docker-compose-dev.yml
+Dockerfile.dev
+*.cer
+/temp
+/tmp
+/tests

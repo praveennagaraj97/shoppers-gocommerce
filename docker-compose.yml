@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  shopee:
+    container_name: shopee
+    image: praveennagaraj/shopee
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
+    environment:
+      - PORT=${PORT}
+      - ENVIRONMENT=production
+      - MONGO_URI=${MONGO_URI}
+      - ACCESS_SECRET=${ACCESS_SECRET}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SENDER_EMAIL=${SENDER_EMAIL}
