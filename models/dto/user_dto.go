@@ -52,3 +52,19 @@ type UpdatePasswordDTO struct {
 	CurrentPassword string `form:"current_password" json:"current_password" bson:"current_password"`
 	NewPassword     string `form:"new_password" json:"new_password" bson:"new_password"`
 }
+
+type UserAddressDTO struct {
+	FirstName             string `form:"first_name,omitempty" json:"first_name,omitempty"`
+	LastName              string `form:"last_name,omitempty" json:"last_name,omitempty"`
+	StreetNumber          string `form:"street_number,omitempty" json:"street_number,omitempty"`
+	Building              string `form:"building,omitempty" json:"building,omitempty"`
+	Phone                 string `form:"phone,omitempty" json:"phone,omitempty"`
+	State                 string `form:"state,omitempty" json:"state,omitempty"`
+	AddressType           string `form:"address_type,omitempty" json:"address_type,omitempty"`
+	CountryName           string `form:"country_name,omitempty" json:"country_name,omitempty"`
+	CountryCode           string `form:"country_code,omitempty" json:"country_code,omitempty"`
+	LocalityName          string `form:"locality_name,omitempty" json:"locality_name,omitempty"`
+	LocalityPostalCode    string `form:"locality_postal_code,omitempty" json:"locality_postal_code,omitempty"`
+	LocalityStreetAddress string `form:"locality_street_address,omitempty" json:"locality_street_address,omitempty"`
+	LocalityCity          string `form:"locality_city,omitempty" json:"locality_city,omitempty"`
+}
