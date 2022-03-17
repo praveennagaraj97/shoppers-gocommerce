@@ -21,6 +21,6 @@ USER praveen
 EXPOSE 8080
 
 
-RUN go build -tags netgo -ldflags '-s -w' -o shopee
+RUN go build -tags netgo -ldflags '-s -w' -o shoppers-gocommerce
 
-CMD [ "./shopee" ]
+CMD [ "./shoppers-gocommerce" ]

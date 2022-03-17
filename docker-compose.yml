@@ -1,9 +1,9 @@
 version: '3.1'
 
 services:
-  shopee:
-    container_name: shopee
-    image: praveennagaraj/shopee
+  shoppers-gocommerce:
+    container_name: shoppers-gocommerce
+    image: praveennagaraj/shoppers-gocommerce
     restart: always
     build:
       context: .

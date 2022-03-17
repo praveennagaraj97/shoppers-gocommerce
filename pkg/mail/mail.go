@@ -52,7 +52,7 @@ func (m *Mailer) SendNoReplyMail(to []string, subject string, templateName strin
 	var body bytes.Buffer
 
 	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	body.Write([]byte(fmt.Sprintf("To: %v \nFrom: %s \nSubject: %s \n%s\n\n", to, "noreply@shopee.com", subject, mimeHeaders)))
+	body.Write([]byte(fmt.Sprintf("To: %v \nFrom: %s \nSubject: %s \n%s\n\n", to, "noreply@shoppers-gocommerce.com", subject, mimeHeaders)))
 
 	err := t.Execute(&body, td)
 

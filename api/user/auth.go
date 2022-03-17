@@ -161,15 +161,15 @@ func (a *UserAPI) Login() gin.HandlerFunc {
 			return
 		}
 
+		if !user.EmailVerified {
+			api.SendErrorResponse(a.config.Localize, c, "email_not_verified", http.StatusUnauthorized, nil)
+			return
+		}
+
 		// check for password match
 		err = user.CompareHashedPassword(loginPayload.Password)
 		if err != nil {
 			api.SendErrorResponse(a.config.Localize, c, "invalid_password_entered", http.StatusUnauthorized, nil)
-			return
-		}
-
-		if !user.EmailVerified {
-			api.SendErrorResponse(a.config.Localize, c, "email_not_verified", http.StatusUnauthorized, nil)
 			return
 		}
 

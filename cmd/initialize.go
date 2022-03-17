@@ -31,7 +31,7 @@ func initializeApp() *conf.GlobalConfiguration {
 		Env:                   env.GetEnvVariable("ENVIRONMENT"),
 		FrontendBaseUrl:       "http://localhost:8080",
 		DatabaseConnectionURL: mongo_url,
-		DatabaseName:          "shopee",
+		DatabaseName:          "shoppers-gocommerce",
 		Domain:                "localhost",
 		Localize:              localize,
 		Mailer:                m,

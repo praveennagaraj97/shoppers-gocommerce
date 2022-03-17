@@ -82,7 +82,7 @@ func (r *Router) corsMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "*")
 
 		origin := c.Request.Header.Get("Origin")
-		c.Writer.Header().Set("Server", "api-shopee-go")
+		c.Writer.Header().Set("Server", "api-shoppers-gocommerce-go")
 
 		if trustedDomains[origin] {
 			c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
