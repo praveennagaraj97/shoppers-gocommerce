@@ -3,6 +3,7 @@ package userapi
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/praveennagaraj97/shoppers-gocommerce/api"
@@ -281,141 +282,141 @@ func (a *UserAPI) Logout() gin.HandlerFunc {
 	}
 }
 
-// // Send reset email to user's email.
-// func (a *UserAPI) ForgotPassword() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		// get email from body.
-// 		var email struct {
-// 			Email string `json:"email"`
-// 		}
+// Send reset email to user's email.
+func (a *UserAPI) ForgotPassword() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// get email from body.
+		var email struct {
+			Email string `json:"email"`
+		}
 
-// 		if err := c.ShouldBind(&email); err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "invalid_input", http.StatusUnprocessableEntity, nil)
-// 			return
-// 		}
-// 		defer c.Request.Body.Close()
+		if err := c.ShouldBind(&email); err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "invalid_input", http.StatusUnprocessableEntity, nil)
+			return
+		}
+		defer c.Request.Body.Close()
 
-// 		if email.Email == "" {
-// 			api.SendErrorResponse(a.config.Localize, c, "invalid_input", http.StatusUnprocessableEntity, nil)
-// 			return
-// 		}
+		if email.Email == "" {
+			api.SendErrorResponse(a.config.Localize, c, "invalid_input", http.StatusUnprocessableEntity, nil)
+			return
+		}
 
-// 		// find user by email.
-// 		user, err := a.userRepo.FindUserByEmail(email.Email)
+		// find user by email.
+		user, err := a.userRepo.FindUserByEmail(email.Email)
 
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnprocessableEntity, nil)
-// 			return
-// 		}
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnprocessableEntity, nil)
+			return
+		}
 
-// 		token, err := tokens.GenerateTokenWithExpiryTimeAndType(user.ID.Hex(), int64(time.Minute*5), "reset", user.UserRole)
+		token, err := tokens.GenerateTokenWithExpiryTimeAndType(user.ID.Hex(), int64(time.Minute*5), "reset", user.UserRole)
 
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
-// 			return
-// 		}
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
+			return
+		}
 
-// 		err = a.userRepo.UpdateByField(user.ID, "reset_password_token", token)
+		err = a.userRepo.UpdateByField(user.ID, "reset_password_token", token)
 
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
-// 			return
-// 		}
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
+			return
+		}
 
-// 		a.config.Mailer.SendNoReplyMail([]string{email.Email},
-// 			a.config.Localize.GetMessage("request_for_change_password", c),
-// 			"forgot_password",
-// 			models.ForgotPasswordEmailTemplateData(a.config.Localize, c,
-// 				a.config.FrontendBaseUrl+"/user/reset-password?token="+token))
+		a.config.Mailer.SendNoReplyMail([]string{email.Email},
+			a.config.Localize.GetMessage("request_for_change_password", c),
+			"forgot_password",
+			models.ForgotPasswordEmailTemplateData(a.config.Localize, c,
+				a.config.FrontendBaseUrl+"/user/reset-password?token="+token))
 
-// 		c.JSON(200, map[string]interface{}{
-// 			"status_code": http.StatusOK,
-// 			"message":     a.config.Localize.GetMessage("reset_email_sent_successfully", c),
-// 		})
+		c.JSON(200, map[string]interface{}{
+			"status_code": http.StatusOK,
+			"message":     a.config.Localize.GetMessage("reset_email_sent_successfully", c),
+		})
 
-// 	}
-// }
+	}
+}
 
-// // reset password from email.
-// func (a *UserAPI) ResetPassword() gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		// get token from query
-// 		token := c.Request.URL.Query().Get("token")
+// reset password from email.
+func (a *UserAPI) ResetPassword() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// get token from query
+		token := c.Request.URL.Query().Get("token")
 
-// 		// parse refresh token
-// 		claimedToken, err := tokens.DecodeJSONWebToken(token)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
-// 			return
-// 		}
+		// parse refresh token
+		claimedToken, err := tokens.DecodeJSONWebToken(token)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
+			return
+		}
 
-// 		if claimedToken.Type != "reset" {
-// 			api.SendErrorResponse(a.config.Localize, c, "token_malformed", http.StatusNotAcceptable, nil)
-// 			return
+		if claimedToken.Type != "reset" {
+			api.SendErrorResponse(a.config.Localize, c, "token_malformed", http.StatusNotAcceptable, nil)
+			return
 
-// 		}
-// 		// get new password from req body
-// 		var password struct {
-// 			Password string `json:"password"`
-// 		}
+		}
+		// get new password from req body
+		var password struct {
+			Password string `json:"password"`
+		}
 
-// 		if err := c.ShouldBind(&password); err != nil || password.Password == "" {
-// 			api.SendErrorResponse(a.config.Localize, c, "invalid_input", http.StatusUnprocessableEntity, nil)
-// 			return
-// 		}
-// 		defer c.Request.Body.Close()
+		if err := c.ShouldBind(&password); err != nil || password.Password == "" {
+			api.SendErrorResponse(a.config.Localize, c, "invalid_input", http.StatusUnprocessableEntity, nil)
+			return
+		}
+		defer c.Request.Body.Close()
 
-// 		userId, err := primitive.ObjectIDFromHex(claimedToken.ID)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
-// 			return
-// 		}
+		userId, err := primitive.ObjectIDFromHex(claimedToken.ID)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotAcceptable, nil)
+			return
+		}
 
-// 		// check user exists with id
-// 		user, err := a.userRepo.FindUserByID(&userId)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotFound, nil)
-// 			return
-// 		}
+		// check user exists with id
+		user, err := a.userRepo.FindUserByID(&userId)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusNotFound, nil)
+			return
+		}
 
-// 		// // check for token matches
-// 		if user.ResetPasswordToken != token {
-// 			api.SendErrorResponse(a.config.Localize, c, "token_malformed", http.StatusNotAcceptable, nil)
-// 			return
-// 		}
+		// // check for token matches
+		if user.ResetPasswordToken != token {
+			api.SendErrorResponse(a.config.Localize, c, "token_malformed", http.StatusNotAcceptable, nil)
+			return
+		}
 
-// 		user.Password = password.Password
-// 		user.HashPassword()
+		user.Password = password.Password
+		user.HashPassword()
 
-// 		err = a.userRepo.UpdateByField(userId, "password", user.Password)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusInternalServerError, nil)
-// 			return
-// 		}
+		err = a.userRepo.UpdateByField(userId, "password", user.Password)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusInternalServerError, nil)
+			return
+		}
 
-// 		err = a.userRepo.UpdateByField(user.ID, "reset_password_token", "")
+		err = a.userRepo.UpdateByField(user.ID, "reset_password_token", "")
 
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
-// 			return
-// 		}
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, "something_went_wrong", http.StatusInternalServerError, nil)
+			return
+		}
 
-// 		// generate new token and refresh token
-// 		newToken, refreshToken, err := a.generateAndSetTokens(user.ID, c, user.UserRole)
-// 		if err != nil {
-// 			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnprocessableEntity, nil)
-// 			return
-// 		}
+		// generate new token and refresh token
+		newToken, refreshToken, err := a.generateAndSetTokens(user.ID, c, user.UserRole)
+		if err != nil {
+			api.SendErrorResponse(a.config.Localize, c, err.Error(), http.StatusUnprocessableEntity, nil)
+			return
+		}
 
-// 		c.JSON(http.StatusOK, &serialize.AuthResponse{
-// 			Response: serialize.Response{
-// 				StatusCode: http.StatusOK,
-// 				Message:    a.config.Localize.GetMessage("password_reset_success_and_logged_in", c),
-// 			},
-// 			User:         user,
-// 			Token:        newToken,
-// 			RefreshToken: refreshToken,
-// 		})
+		c.JSON(http.StatusOK, &serialize.AuthResponse{
+			Response: serialize.Response{
+				StatusCode: http.StatusOK,
+				Message:    a.config.Localize.GetMessage("password_reset_success_and_logged_in", c),
+			},
+			User:         user,
+			Token:        newToken,
+			RefreshToken: refreshToken,
+		})
 
-// 	}
-// }
+	}
+}

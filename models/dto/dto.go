@@ -1,16 +1,5 @@
 package dto
 
-type UpdateUserDTO struct {
-	FirstName string `form:"first_name,omitempty" json:"first_name,omitempty" bson:"first_name,omitempty"`
-	LastName  string `form:"last_name,omitempty" json:"last_name,omitempty" bson:"last_name,omitempty"`
-	Email     string `form:"email,omitempty" json:"email,omitempty" bson:"email,omitempty"`
-}
-
-type UpdatePasswordDTO struct {
-	CurrentPassword string `form:"current_password" json:"current_password" bson:"current_password"`
-	NewPassword     string `form:"new_password" json:"new_password" bson:"new_password"`
-}
-
 type UserAddressDTO struct {
 	FirstName             string `form:"first_name,omitempty" json:"first_name,omitempty"`
 	LastName              string `form:"last_name,omitempty" json:"last_name,omitempty"`

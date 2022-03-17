@@ -37,9 +37,7 @@ func (a *UserAPI) InitializeUserAPI(config *conf.GlobalConfiguration,
 	}
 }
 
-/*
-Update User
-*/
+//Update User
 func (a *UserAPI) UpdateUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var err error
@@ -77,9 +75,7 @@ func (a *UserAPI) UpdateUser() gin.HandlerFunc {
 				return
 			}
 		}
-
 		c.JSON(http.StatusNoContent, nil)
-
 	}
 }
 
