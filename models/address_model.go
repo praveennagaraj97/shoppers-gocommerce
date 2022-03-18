@@ -24,6 +24,6 @@ type AddressModel struct {
 	State       string             `json:"state" bson:"state"`
 	Phone       string             `json:"phone" bson:"phone"`
 	AddressType string             `json:"address_type" bson:"address_type"`
-	CreatedAt   primitive.DateTime `json:"created_at" bson:"created_at"`
+	CreatedAt   primitive.DateTime `json:"created_at" bson:"created_at,omitempty"`
 	UpdatedAt   primitive.DateTime `json:"updated_at" bson:"updated_at"`
 }

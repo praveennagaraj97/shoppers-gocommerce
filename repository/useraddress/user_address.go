@@ -35,6 +35,10 @@ func (r *UserAddressRepository) Create(data *dto.UserAddressDTO, uid *primitive.
 	id := primitive.NewObjectID()
 	addressData := r.serializeAddressInput(&id, uid, data)
 
+	currenTime := primitive.NewDateTimeFromTime(time.Now())
+	addressData.CreatedAt = currenTime
+	addressData.UpdatedAt = currenTime
+
 	_, err := r.collection.InsertOne(ctx, addressData)
 
 	if err != nil {
@@ -141,6 +145,10 @@ func (r *UserAddressRepository) UpdateAddress(uid, addrId *primitive.ObjectID, i
 	defer cancel()
 
 	addressData := r.serializeAddressInput(addrId, uid, input)
+
+	currenTime := primitive.NewDateTimeFromTime(time.Now())
+	addressData.UpdatedAt = currenTime
+
 	res, err := r.collection.UpdateOne(ctx, bson.M{"uid": uid, "_id": addrId}, bson.M{"$set": addressData})
 
 	if err != nil || res.ModifiedCount == 0 {
@@ -181,8 +189,6 @@ func (r *UserAddressRepository) serializeAddressInput(addressId, uid *primitive.
 		State:       data.State,
 		Phone:       data.Phone,
 		AddressType: data.AddressType,
-		CreatedAt:   primitive.NewDateTimeFromTime(time.Now()),
-		UpdatedAt:   primitive.NewDateTimeFromTime(time.Now()),
 	}
 
 	return addressData
