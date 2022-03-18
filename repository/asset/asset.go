@@ -120,11 +120,3 @@ func (a *AssetRepository) FindByID(id *primitive.ObjectID) (*models.AssetModel, 
 	}
 	return data, nil
 }
-
-func (a *AssetRepository) AddNewLinkedEntity(assetID *primitive.ObjectID, entity *models.AssetLinkedWithInfo) (*mongo.UpdateResult, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
-	defer cancel()
-
-	return a.repo.UpdateOne(ctx, bson.M{"_id": assetID}, bson.M{"$push": bson.M{"linked_entities": entity}})
-
-}

@@ -117,13 +117,13 @@ func (a *AssetsAPI) UploadSingleAsset() gin.HandlerFunc {
 		// Save to database
 		var lowQualityUrl string
 		if payload.BlurDataRequired {
-			blurPath := strings.Replace(fileName, "original", "blur", 1)
+			blurPath := strings.Replace(originalFilePath, "original", "blur", 1)
 			lowQualityUrl = fmt.Sprintf("%s/%s/%s", a.conf.AWSUtils.S3PUBLIC_DOMAIN, blurPath, fileName)
 		}
 
 		dataModel := &models.AssetModel{
 			ID:          primitive.NewObjectID(),
-			OriginalURL: fmt.Sprintf("%s/%s/%s", a.conf.AWSUtils.S3PUBLIC_DOMAIN, fileName, fileName),
+			OriginalURL: fmt.Sprintf("%s/%s/%s", a.conf.AWSUtils.S3PUBLIC_DOMAIN, originalFilePath, fileName),
 			BlurDataURL: lowQualityUrl,
 			ContentType: fileType,
 			MetaData: &models.FileMetaModel{
@@ -131,9 +131,8 @@ func (a *AssetsAPI) UploadSingleAsset() gin.HandlerFunc {
 				Title:       payload.Title,
 				Description: payload.Description,
 			},
-			CreatedAt:    primitive.NewDateTimeFromTime(time.Now()),
-			Published:    payload.Published,
-			LinkedEntity: make([]*models.AssetLinkedWithInfo, 0),
+			CreatedAt: primitive.NewDateTimeFromTime(time.Now()),
+			Published: payload.Published,
 		}
 
 		res, err := a.repo.AddNewAsset(dataModel)

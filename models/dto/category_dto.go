@@ -46,7 +46,10 @@ func (c *CreateCategoryDTO) SetData() error {
 
 	c.CreatedAt = &currentTime
 	c.UpdatedAt = &currentTime
-	c.PublishedAt = nil
+
+	if c.Published {
+		c.PublishedAt = &currentTime
+	}
 
 	return nil
 
