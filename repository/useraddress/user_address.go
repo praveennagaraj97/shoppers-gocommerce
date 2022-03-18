@@ -3,7 +3,6 @@ package useraddressrepository
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/praveennagaraj97/shoppers-gocommerce/api"
@@ -32,21 +31,28 @@ func (r *UserAddressRepository) Create(data *dto.UserAddressDTO, uid *primitive.
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
-	id := primitive.NewObjectID()
-	addressData := r.serializeAddressInput(&id, uid, data)
 
-	currenTime := primitive.NewDateTimeFromTime(time.Now())
-	addressData.CreatedAt = currenTime
-	addressData.UpdatedAt = currenTime
+	data.SetData(uid, false)
 
-	_, err := r.collection.InsertOne(ctx, addressData)
+	_, err := r.collection.InsertOne(ctx, data)
 
 	if err != nil {
 		return nil, errors.New("something_went_wrong")
 	}
 
-	return addressData, nil
-
+	return &models.AddressModel{
+		ID:          data.ID,
+		Uid:         *data.UId,
+		UserName:    data.UserName,
+		Building:    data.Building,
+		Country:     *data.Country,
+		Locality:    *data.Locality,
+		State:       data.State,
+		Phone:       data.Phone,
+		AddressType: data.AddressType,
+		CreatedAt:   *data.CreatedAt,
+		UpdatedAt:   *data.UpdatedAt,
+	}, nil
 }
 
 func (r *UserAddressRepository) FindById(addressId, uid *primitive.ObjectID) (*models.AddressModel, error) {
@@ -144,15 +150,16 @@ func (r *UserAddressRepository) UpdateAddress(uid, addrId *primitive.ObjectID, i
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
-	addressData := r.serializeAddressInput(addrId, uid, input)
+	input.SetData(uid, true)
 
-	currenTime := primitive.NewDateTimeFromTime(time.Now())
-	addressData.UpdatedAt = currenTime
+	res, err := r.collection.UpdateOne(ctx, bson.M{"uid": uid, "_id": addrId}, bson.M{"$set": input})
 
-	res, err := r.collection.UpdateOne(ctx, bson.M{"uid": uid, "_id": addrId}, bson.M{"$set": addressData})
+	if err != nil {
+		return err
+	}
 
-	if err != nil || res.ModifiedCount == 0 {
-		return errors.New("not_changed")
+	if res.ModifiedCount == 0 {
+		return errors.New("nothing_changed")
 	}
 
 	return nil
@@ -168,29 +175,4 @@ func (r *UserAddressRepository) DeleteAddress(uid, addrId *primitive.ObjectID) e
 		return errors.New("not_deleted")
 	}
 	return nil
-}
-
-func (r *UserAddressRepository) serializeAddressInput(addressId, uid *primitive.ObjectID, data *dto.UserAddressDTO) *models.AddressModel {
-	addressData := &models.AddressModel{
-		ID:       *addressId,
-		Uid:      *uid,
-		UserName: fmt.Sprintf("%s %s", data.FirstName, data.LastName),
-		Building: data.Building,
-		Country: models.Country{
-			Name: data.CountryName,
-			Code: data.CountryCode,
-		},
-		Locality: models.Locality{
-			Name:          data.LocalityName,
-			PostalCode:    data.LocalityPostalCode,
-			StreetAddress: data.LocalityStreetAddress,
-			City:          data.LocalityCity,
-		},
-		State:       data.State,
-		Phone:       data.Phone,
-		AddressType: data.AddressType,
-	}
-
-	return addressData
-
 }

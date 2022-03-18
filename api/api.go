@@ -32,7 +32,6 @@ func SendErrorResponse(loc *i18n.Internationalization, c *gin.Context, mskKey st
 // Get user if parsed from req context which will be set by middleware.
 func GetUserIdFromContext(c *gin.Context) (*primitive.ObjectID, error) {
 	value, _ := c.Get("id")
-	fmt.Println(value)
 
 	id, err := primitive.ObjectIDFromHex(fmt.Sprintf("%v", value))
 	if err != nil {
