@@ -25,7 +25,7 @@ type CreateCategoryDTO struct {
 	Parent   *primitive.ObjectID   `json:"-" form:"-" bson:"parent"`
 }
 
-func (c *CreateCategoryDTO) DefaultData() error {
+func (c *CreateCategoryDTO) SetData() error {
 	c.Slug = utils.Slugify(c.Title)
 	c.Children = []*primitive.ObjectID{}
 	ico, err := primitive.ObjectIDFromHex(c.IconID)

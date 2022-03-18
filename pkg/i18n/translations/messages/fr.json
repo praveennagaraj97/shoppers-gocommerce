@@ -43,5 +43,6 @@
   "blur_data_can_only_be_created_for_images": "Les données de flou ne peuvent être créées que pour l'image",
   "default_locale_is_not_allowed": "Les paramètres régionaux par défaut ne sont pas autorisés",
   "translation_added_successfully": "Traduction ajoutée avec succès",
-  "category_added_successfully": "catégorie ajoutée avec succès"
+  "category_added_successfully": "catégorie ajoutée avec succès",
+  "address_added_successfully": "Adresse ajoutée avec succès"
 }

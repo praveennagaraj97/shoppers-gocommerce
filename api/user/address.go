@@ -47,7 +47,7 @@ func (a *UserAPI) AddNewAddress() gin.HandlerFunc {
 			Data: res,
 			Response: serialize.Response{
 				StatusCode: http.StatusCreated,
-				Message:    "address_added_successfully",
+				Message:    a.config.Localize.GetMessage("address_added_successfully", c),
 			},
 		})
 

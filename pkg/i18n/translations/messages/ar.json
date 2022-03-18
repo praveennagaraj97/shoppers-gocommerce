@@ -43,5 +43,6 @@
   "blur_data_can_only_be_created_for_images": "يمكن إنشاء بيانات التعتيم للصور فقط",
   "default_locale_is_not_allowed": "اللغة الافتراضية غير مسموح بها",
   "translation_added_successfully": "تمت إضافة الترجمة بنجاح",
-  "category_added_successfully": "تمت إضافة الفئة بنجاح"
+  "category_added_successfully": "تمت إضافة الفئة بنجاح",
+  "address_added_successfully": "تمت إضافة العنوان بنجاح"
 }

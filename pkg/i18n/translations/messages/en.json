@@ -43,5 +43,6 @@
   "blur_data_can_only_be_created_for_images": "Blur data can only be created for image",
   "default_locale_is_not_allowed": "Default locale is not allowed",
   "translation_added_successfully": "Translation added successfully",
-  "category_added_successfully": "category added successfully"
+  "category_added_successfully": "category added successfully",
+  "address_added_successfully": "Address added successfully"
 }
