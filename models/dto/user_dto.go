@@ -56,15 +56,15 @@ type UpdatePasswordDTO struct {
 }
 
 type UserAddressDTO struct {
-	// Direct Marshall
-	FirstName   string `form:"first_name,omitempty" json:"first_name,omitempty" bson:"first_name"`
-	LastName    string `form:"last_name,omitempty" json:"last_name,omitempty" bson:"last_name"`
-	Building    string `form:"building,omitempty" json:"building,omitempty" bson:"building"`
-	Phone       string `form:"phone,omitempty" json:"phone,omitempty" bson:"phone"`
-	State       string `form:"state,omitempty" json:"state,omitempty" bson:"state"`
-	AddressType string `form:"address_type,omitempty" json:"address_type,omitempty" bson:"address_type"`
+	ID          primitive.ObjectID  `bson:"_id,omitempty"`
+	UId         *primitive.ObjectID `bson:"uid"`
+	FirstName   string              `form:"first_name,omitempty" json:"first_name,omitempty" bson:"first_name"`
+	LastName    string              `form:"last_name,omitempty" json:"last_name,omitempty" bson:"last_name"`
+	Building    string              `form:"building,omitempty" json:"building,omitempty" bson:"building"`
+	Phone       string              `form:"phone,omitempty" json:"phone,omitempty" bson:"phone"`
+	State       string              `form:"state,omitempty" json:"state,omitempty" bson:"state"`
+	AddressType string              `form:"address_type,omitempty" json:"address_type,omitempty" bson:"address_type"`
 
-	// Not saved in DB
 	CountryName           string `form:"country_name,omitempty" json:"country_name,omitempty" bson:"-"`
 	CountryCode           string `form:"country_code,omitempty" json:"country_code,omitempty" bson:"-"`
 	LocalityName          string `form:"locality_name,omitempty" json:"locality_name,omitempty" bson:"-"`
@@ -72,9 +72,6 @@ type UserAddressDTO struct {
 	LocalityStreetAddress string `form:"locality_street_address,omitempty" json:"locality_street_address,omitempty" bson:"-"`
 	LocalityCity          string `form:"locality_city,omitempty" json:"locality_city,omitempty" bson:"-"`
 
-	// Generate
-	ID        primitive.ObjectID  `bson:"_id,omitempty"`
-	UId       *primitive.ObjectID `bson:"uid"`
 	UserName  string              `bson:"user_name"`
 	Country   *models.Country     `bson:"country"`
 	Locality  *models.Locality    `bson:"locality"`

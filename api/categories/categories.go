@@ -51,19 +51,18 @@ func (a *CategoriesAPI) AddCategory() gin.HandlerFunc {
 			payload.Icon = &icon
 		}
 
-		// payload.Locale = a.conf.DefaultLocale
-
-		res, err := a.repo.Create(&payload)
+		res, err := a.repo.Create(&payload, a.conf.DefaultLocale)
 		if err != nil {
 			api.SendErrorResponse(a.conf.Localize, c, err.Error(), http.StatusUnprocessableEntity, nil)
 			return
 		}
 
-		c.JSON(http.StatusCreated, serialize.DataResponse{Data: res, Response: serialize.Response{
-			StatusCode: http.StatusCreated,
-			Message:    a.conf.Localize.GetMessage("category_added_successfully", c),
-		}})
-
+		c.JSON(http.StatusCreated, serialize.DataResponse{
+			Data: res, Response: serialize.Response{
+				StatusCode: http.StatusCreated,
+				Message:    a.conf.Localize.GetMessage("category_added_successfully", c),
+			},
+		})
 	}
 }
 

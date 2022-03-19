@@ -16,7 +16,7 @@ type User struct {
 	EmailVerified      bool               `bson:"email_verified" json:"email_verified"`
 	ResetPasswordToken string             `bson:"reset_password_token" json:"-"`
 	JoinedOn           primitive.DateTime `bson:"joined_on" json:"joined_on"`
-	UserRole           string             `bson:"user_role" json:"user_role"`
+	UserRole           string             `bson:"user_role" json:"-"`
 }
 
 func (u *User) HashPassword() error {

@@ -8,24 +8,24 @@ import (
 )
 
 type CreateCategoryDTO struct {
-	Title       string `json:"title" form:"title" bson:"title"`
-	Description string `json:"description" form:"description" bson:"description"`
-	Published   bool   `json:"published" form:"published" bson:"published"`
+	ID          primitive.ObjectID `bson:"_id"`
+	Title       string             `json:"title" form:"title" bson:"-"`
+	Description string             `json:"description" form:"description" bson:"-"`
+	IconID      string             `json:"icon_id" form:"icon_id" bson:"-"`
 
-	ParentID string `json:"parent_id" form:"parent_id" bson:"-"`
-	IconID   string `json:"icon_id" form:"icon_id" bson:"-"`
-
-	PublishedAt *primitive.DateTime `json:"-" form:"-" bson:"published_at"`
-	CreatedAt   *primitive.DateTime `json:"-" form:"-" bson:"created_at"`
-	UpdatedAt   *primitive.DateTime `json:"-" form:"-" bson:"updated_at"`
-
-	Slug     string                `json:"-" form:"-" bson:"slug"`
-	Children []*primitive.ObjectID `json:"-" form:"-" bson:"children"`
-	Icon     *primitive.ObjectID   `json:"-" form:"-" bson:"icon"`
-	Parent   *primitive.ObjectID   `json:"-" form:"-" bson:"parent"`
+	Slug        string                `json:"-" form:"-" bson:"slug"`
+	Children    []*primitive.ObjectID `json:"-" form:"-" bson:"children"`
+	ParentID    string                `json:"parent_id" form:"parent_id" bson:"-"`
+	Icon        *primitive.ObjectID   `json:"-" form:"-" bson:"icon"`
+	Parent      *primitive.ObjectID   `json:"-" form:"-" bson:"parent"`
+	Published   bool                  `json:"-" form:"-" bson:"published"`
+	PublishedAt *primitive.DateTime   `json:"-" form:"-" bson:"published_at"`
+	CreatedAt   *primitive.DateTime   `json:"-" form:"-" bson:"created_at"`
+	UpdatedAt   *primitive.DateTime   `json:"-" form:"-" bson:"updated_at"`
 }
 
 func (c *CreateCategoryDTO) SetData() error {
+	c.ID = primitive.NewObjectID()
 	c.Slug = utils.Slugify(c.Title)
 	c.Children = []*primitive.ObjectID{}
 	ico, err := primitive.ObjectIDFromHex(c.IconID)
@@ -46,10 +46,6 @@ func (c *CreateCategoryDTO) SetData() error {
 
 	c.CreatedAt = &currentTime
 	c.UpdatedAt = &currentTime
-
-	if c.Published {
-		c.PublishedAt = &currentTime
-	}
 
 	return nil
 
