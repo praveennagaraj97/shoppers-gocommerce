@@ -44,5 +44,6 @@
   "default_locale_is_not_allowed": "Default locale is not allowed",
   "translation_added_successfully": "Translation added successfully",
   "category_added_successfully": "category added successfully",
-  "address_added_successfully": "Address added successfully"
+  "address_added_successfully": "Address added successfully",
+  "one_or_more_translations_are_missing": "One or more translations are missing"
 }

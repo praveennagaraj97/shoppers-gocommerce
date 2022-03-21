@@ -129,16 +129,53 @@ func (a *CategoriesAPI) GetAllCategories() gin.HandlerFunc {
 
 		locale := fmt.Sprint(loc)
 
-		res, err := a.repo.FindAll(locale, a.conf.DefaultLocale)
+		res, err := a.repo.FindAll(locale)
 
 		if err != nil {
 			api.SendErrorResponse(a.conf.Localize, ctx, err.Error(), 500, nil)
 			return
 		}
 
-		ctx.JSON(200, map[string]interface{}{
-			"data": res,
+		ctx.JSON(http.StatusOK, serialize.DataResponse{
+			Data: res,
+			Response: serialize.Response{
+				StatusCode: http.StatusOK,
+				Message:    "list_of_categories_retrieved",
+			},
 		})
+	}
+}
+
+func (a *CategoriesAPI) MarkPublishStatus(status bool) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		cId, _ := ctx.Params.Get("category")
+
+		categoryId, err := primitive.ObjectIDFromHex(cId)
+
+		if err != nil {
+			api.SendErrorResponse(a.conf.Localize, ctx, err.Error(), http.StatusUnprocessableEntity, nil)
+			return
+		}
+
+		// check if translations exist for all locales
+		c, err := a.repo.GetAvailableTranslationsCount(&categoryId)
+
+		if err != nil {
+			api.SendErrorResponse(a.conf.Localize, ctx, err.Error(), http.StatusBadRequest, nil)
+			return
+		}
+
+		if int(c) != len(*a.conf.Locales) {
+			api.SendErrorResponse(a.conf.Localize, ctx, "one_or_more_translations_are_missing", http.StatusBadRequest, nil)
+			return
+		}
+
+		err = a.repo.MarkPublishedStatus(&categoryId, status)
+
+		if err != nil {
+			api.SendErrorResponse(a.conf.Localize, ctx, err.Error(), http.StatusBadRequest, nil)
+			return
+		}
 
 	}
 }

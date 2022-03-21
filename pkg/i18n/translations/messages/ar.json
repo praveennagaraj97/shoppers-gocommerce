@@ -44,5 +44,6 @@
   "default_locale_is_not_allowed": "اللغة الافتراضية غير مسموح بها",
   "translation_added_successfully": "تمت إضافة الترجمة بنجاح",
   "category_added_successfully": "تمت إضافة الفئة بنجاح",
-  "address_added_successfully": "تمت إضافة العنوان بنجاح"
+  "address_added_successfully": "تمت إضافة العنوان بنجاح",
+  "one_or_more_translations_are_missing": "هناك ترجمة أو أكثر مفقودة"
 }

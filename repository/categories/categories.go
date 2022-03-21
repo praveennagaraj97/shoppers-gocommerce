@@ -9,6 +9,7 @@ import (
 	"github.com/praveennagaraj97/shoppers-gocommerce/models/dto"
 	"github.com/praveennagaraj97/shoppers-gocommerce/pkg/utils"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -23,6 +24,8 @@ func (r *CategoriesRepository) Initialize(col *mongo.Collection) {
 
 	utils.CreateIndex(col, bson.D{{Key: "slug", Value: 1}}, "Category Slug", true)
 	utils.CreateIndex(col, bson.D{{Key: "published", Value: 1}}, "Published", false)
+	utils.CreateIndex(r.translationCollection, bson.D{{Key: "locale", Value: 1}}, "Locale", false)
+	utils.CreateIndex(r.translationCollection, bson.D{{Key: "category_id", Value: 1}}, "Category Reference", false)
 
 }
 
@@ -35,7 +38,7 @@ func (r *CategoriesRepository) Create(data *dto.CreateCategoryDTO, defaultLocale
 		return nil, err
 	}
 
-	// Check if exists
+	//Check if exists
 	exists := r.FindBySlug(data.Slug)
 
 	if exists {
@@ -86,7 +89,7 @@ func (r *CategoriesRepository) FindBySlug(slug string) bool {
 	return true
 }
 
-func (r *CategoriesRepository) FindAll(locale string, defaultLocale string) ([]models.CategoriesModel, error) {
+func (r *CategoriesRepository) FindAll(locale string) ([]models.CategoriesModel, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
@@ -151,5 +154,23 @@ func (r *CategoriesRepository) FindAll(locale string, defaultLocale string) ([]m
 	}
 
 	return results, nil
+
+}
+
+func (r *CategoriesRepository) MarkPublishedStatus(id *primitive.ObjectID, status bool) error {
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+	defer cancel()
+
+	updateRes, err := r.repo.UpdateByID(ctx, id, bson.M{"$set": bson.M{"published": status}})
+	if err != nil {
+		return err
+	}
+
+	if updateRes.ModifiedCount == 0 {
+		return errors.New("document_not_modified")
+	}
+
+	return nil
 
 }
