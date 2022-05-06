@@ -94,7 +94,7 @@ import { defineComponent, reactive, watchEffect } from 'vue';
 export default defineComponent({
   name: 'LoginView',
   setup() {
-    const { isLogged, updateAuthState, getAuthState } = useAuthStore();
+    const { isLogged, getAuthState } = useAuthStore();
 
     const brandName = process.env.VUE_APP_BRAND_NAME || 'Brand Name';
 
@@ -109,10 +109,7 @@ export default defineComponent({
 
     async function handleSumit() {
       try {
-        const { data } = await loginAPI(
-          loginValues.email,
-          loginValues.password
-        );
+        await loginAPI(loginValues.email, loginValues.password);
       } catch (error) {
         console.log(error);
       }

@@ -17,4 +17,8 @@
     will-change-transform 
     transform transition-all duration-75;
   }
+
+  .smooth {
+    @apply transform will-change-transform transition-all duration-300;
+  }
 }
