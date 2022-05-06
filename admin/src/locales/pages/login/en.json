@@ -1,0 +1,12 @@
+{
+  "welcome": "Welcome to",
+  "sign_in": "Sign-in to your account and start managing",
+  "email": "Email",
+  "password": "Password",
+  "enter_login_email": "Enter your email",
+  "enter_login_password": "Enter your password",
+  "remember_me": "Remember Me",
+  "agree_statement": "By clicking on below you agree to our",
+  "terms_and_conditions": "terms and conditions",
+  "login": "Login"
+}

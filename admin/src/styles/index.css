@@ -12,6 +12,9 @@
 
 @layer utilities {
   .input-focus {
-    @apply focus:outline-amber-600/30 outline-none will-change-transform transform  transition-colors duration-150;
+    @apply focus:outline-none border 
+    focus:border-pink-500/30  border-pink-500/0 
+    will-change-transform 
+    transform transition-all duration-75;
   }
 }

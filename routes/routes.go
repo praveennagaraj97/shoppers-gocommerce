@@ -50,6 +50,7 @@ func (router *Router) listenAndSeve() {
 	r.Use(router.corsMiddleware())
 
 	r.Static("/static", "./static")
+
 	r.Use(middlewares.AcceptLanguageParser())
 
 	// list Routes
@@ -73,7 +74,7 @@ func (router *Router) listenAndSeve() {
 
 var trustedDomains map[string]bool = map[string]bool{
 	"http://localhost:8080": true,
-	"http://localhost:3200": true,
+	"http://localhost:3000": true,
 }
 
 func (r *Router) corsMiddleware() gin.HandlerFunc {
