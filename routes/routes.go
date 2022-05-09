@@ -21,11 +21,11 @@ type Router struct {
 
 func (r *Router) InitializeRouter(cfg *conf.GlobalConfiguration) {
 	r.conf = cfg
-	r.listenAndSeve()
+	r.listenAndServe()
 }
 
 // ListenAndServe starts the REST API.
-func (router *Router) listenAndSeve() {
+func (router *Router) listenAndServe() {
 	if router.conf.Env == "production" {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
